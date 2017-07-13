@@ -1,5 +1,7 @@
 # Gerrit Trigger Plugin
 
+添加了mergeBuildJob配置选项，可以将Jenkins队列中的相同任务合并在一起执行
+
 This plugin triggers builds on events from the Gerrit code review system by
 retrieving events from the Gerrit command "stream-events", so the trigger is
 pushed from Gerrit instead of pulled as scm-triggers usually are.
