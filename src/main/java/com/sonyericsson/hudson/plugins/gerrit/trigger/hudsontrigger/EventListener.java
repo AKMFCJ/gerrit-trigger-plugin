@@ -188,7 +188,7 @@ public final class EventListener implements GerritEventListener {
     protected void schedule(GerritTrigger t, GerritCause cause, GerritTriggeredEvent event, final Job project) {
 
         // 判断项目是否在队列中
-        if (t.mergeBuildJob && project.isInQueue()) {
+        if (t.isMergeBuildJob() && project.isInQueue()) {
             try {
                 project.getQueueItem().doCancelQueue();
                 logger.info("Cancel other Item");

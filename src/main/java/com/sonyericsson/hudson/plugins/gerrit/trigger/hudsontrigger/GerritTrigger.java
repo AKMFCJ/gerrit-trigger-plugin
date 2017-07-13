@@ -1445,7 +1445,7 @@ public class GerritTrigger extends Trigger<Job> {
         return silentMode;
     }
 
-    public boolean isMergeBuildJob { return mergeBuildJob; }
+    public boolean isMergeBuildJob() { return mergeBuildJob; }
     /**
      * If silent start mode is on or off. When silent start mode is on there will be no 'build started' message back
      * to Gerrit. Default is false.
