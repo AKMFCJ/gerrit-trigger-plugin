@@ -158,6 +158,7 @@ public class GerritTrigger extends Trigger<Job> {
     private Integer gerritBuildNotBuiltVerifiedValue;
     private Integer gerritBuildNotBuiltCodeReviewValue;
     private boolean silentMode;
+    private boolean mergeBuildJob;
     private String notificationLevel;
     private boolean silentStartMode;
     private boolean escapeQuotes;
@@ -259,6 +260,7 @@ public class GerritTrigger extends Trigger<Job> {
      *                                       Job specific Gerrit code review vote when a build is not built, null means
      *                                       that the global value should be used.
      * @param silentMode                     Silent Mode on or off.
+     * @param mergeBuildJob                  Merge gerrit trigger job
      * @param silentStartMode                Silent Start Mode on or off.
      * @param escapeQuotes                   EscapeQuotes on or off.
      * @param noNameAndEmailParameters       Whether to create parameters containing name and email
@@ -285,7 +287,7 @@ public class GerritTrigger extends Trigger<Job> {
             Integer gerritBuildSuccessfulCodeReviewValue, Integer gerritBuildFailedVerifiedValue,
             Integer gerritBuildFailedCodeReviewValue, Integer gerritBuildUnstableVerifiedValue,
             Integer gerritBuildUnstableCodeReviewValue, Integer gerritBuildNotBuiltVerifiedValue,
-            Integer gerritBuildNotBuiltCodeReviewValue, boolean silentMode, boolean silentStartMode,
+            Integer gerritBuildNotBuiltCodeReviewValue, boolean silentMode, boolean mergeBuildJob, boolean silentStartMode,
             boolean escapeQuotes, boolean noNameAndEmailParameters, boolean readableMessage, String dependencyJobsNames,
             String buildStartMessage, String buildSuccessfulMessage, String buildUnstableMessage,
             String buildFailureMessage, String buildNotBuiltMessage, String buildUnsuccessfulFilepath, String customUrl,
@@ -304,6 +306,7 @@ public class GerritTrigger extends Trigger<Job> {
         this.gerritBuildNotBuiltVerifiedValue = gerritBuildNotBuiltVerifiedValue;
         this.gerritBuildNotBuiltCodeReviewValue = gerritBuildNotBuiltCodeReviewValue;
         this.silentMode = silentMode;
+        this.mergeBuildJob = mergeBuildJob;
         this.silentStartMode = silentStartMode;
         this.escapeQuotes = escapeQuotes;
         if (noNameAndEmailParameters) {
@@ -1442,6 +1445,7 @@ public class GerritTrigger extends Trigger<Job> {
         return silentMode;
     }
 
+    public boolean isMergeBuildJob { return mergeBuildJob; }
     /**
      * If silent start mode is on or off. When silent start mode is on there will be no 'build started' message back
      * to Gerrit. Default is false.
@@ -1654,6 +1658,17 @@ public class GerritTrigger extends Trigger<Job> {
     @DataBoundSetter
     public void setSilentMode(boolean silentMode) {
         this.silentMode = silentMode;
+    }
+
+    /**
+     * Sets silent mode to on or off. When silent mode is on there will be no communication back to Gerrit, i.e. no
+     * build started/failed/successful approve messages etc. Default is false.
+     *
+     * @param mergeBuildJob true if silent mode should be on.
+     */
+    @DataBoundSetter
+    public void setMergeBuildJob(boolean mergeBuildJob) {
+        this.mergeBuildJob = mergeBuildJob;
     }
 
     /**

@@ -197,6 +197,12 @@
            <f:checkbox name="silentMode"
                        checked="${it.silentMode}"/>
         </f:entry>
+        <f:entry title="${% Merge Build Job}"
+                         field="mergeBuildJob"
+                         help="/plugin/gerrit-trigger/trigger/help-MergeBuildJob.html">
+                   <f:checkbox name="mergeBuildJob"
+                               checked="${it.mergeBuildJob}"/>
+                </f:entry>
         <f:entry title="${%Trigger on}"
                 help="/plugin/gerrit-trigger/trigger/help-GerritEventType.html">
             <f:hetero-list descriptors="${descriptor.getGerritEventDescriptors()}" items="${instance.triggerOnEvents}" name="triggerOnEvents" hasHeader="true"/>

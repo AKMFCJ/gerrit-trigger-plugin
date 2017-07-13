@@ -59,6 +59,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Future;
+import java.io.IOException;
+import javax.servlet.ServletException;
 
 import static com.sonyericsson.hudson.plugins.gerrit.trigger.PluginImpl.getServerConfig;
 import static com.sonyericsson.hudson.plugins.gerrit.trigger.hudsontrigger.GerritTriggerParameters.setOrCreateParameters;
@@ -184,6 +186,19 @@ public final class EventListener implements GerritEventListener {
      * @param project the project to build.
      */
     protected void schedule(GerritTrigger t, GerritCause cause, GerritTriggeredEvent event, final Job project) {
+
+        // 判断项目是否在队列中
+        if (t.mergeBuildJob && project.isInQueue()) {
+            try {
+                project.getQueueItem().doCancelQueue();
+                logger.info("Cancel other Item");
+            } catch (IOException e) {
+                logger.error("Can't Cancel");
+            } catch(ServletException e) {
+                logger.error("Can't Cancel");
+            }
+        }
+
         BadgeAction badgeAction = new BadgeAction(event);
         //during low traffic we still don't want to spam Gerrit, 3 is a nice number, isn't it?
         int projectbuildDelay = t.getBuildScheduleDelay();
